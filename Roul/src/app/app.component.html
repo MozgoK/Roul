@@ -64,6 +64,10 @@
                   <td>
                     <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
                       {{arrAllNumbers[el.number | numberWin].number}}
+                      <div class="count" 
+                        [ngClass]="{'first': arrAllNumbers[el.number | numberWin].count === firstMinCounter, 
+                                    'second': arrAllNumbers[el.number | numberWin].count === secondMinCounter}">
+                      </div>
                     </div>
                   </td>
                   <td>{{arrAllNumbers[el.number | numberWin].count}}</td>

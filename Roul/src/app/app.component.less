@@ -176,6 +176,31 @@ table, th, td {
         border-radius: @br;
         padding: 4px;
         // display: flex;
+        position: relative;
+
+        
+
+        & .count {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          font-size: 12px;
+          height: 12px;
+          width: 12px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+          border-bottom-right-radius: @br;
+          background: none;
+
+          &.first {
+            background: linear-gradient(135deg, rgba(255,255,255,0) 49%, @firstColor 50%);;
+          }
+
+          &.second {
+            background: linear-gradient(135deg, rgba(255,255,255,0) 49%, @secondColor 50%);
+          }
+        }
       }
     }
 
