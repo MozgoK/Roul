@@ -3,91 +3,116 @@
 
 <div class="container-fluid">
     <div class="row">
-      <div class="col-4">
+      <div class="col-5">
 
         <div class="row">
           <div class="first info-block">
             <span class="header">Меньше всего выпадали:</span>
             <span 
-              *ngFor="let el of arrNullNumbers"
+              *ngFor="let el of arrAllNumbers"
               [style.display]="el.count === firstMinCounter ? '' : 'none'"
               [ngClass]="el.color"
             >
               {{el.number}}
+              <div class="count"></div>
             </span>
 
-            <span 
+            <!-- <span 
               *ngFor="let el of arrNumbers"
               [style.display]="el.count === firstMinCounter ? '' : 'none'"
               [ngClass]="el.color"
             >
               {{el.number}}
-            </span>
+            </span> -->
           </div>
           <div class="second info-block">
             <span class="header">Чуть больше:</span>
             <span 
-              *ngFor="let el of arrNullNumbers"
+              *ngFor="let el of arrAllNumbers"
               [style.display]="el.count === secondMinCounter ? '' : 'none'"
               [ngClass]="el.color"
             >
               {{el.number}}
+              <div class="count"></div>
             </span>
 
-            <span 
+            <!-- <span 
               *ngFor="let el of arrNumbers"
               [style.display]="el.count === secondMinCounter ? '' : 'none'"
               [ngClass]="el.color"
             >
               {{el.number}}
-            </span>
+            </span> -->
           </div>
           
           <div class="first info-block">
             <p class="header">Сортированный список в порядке возрастания даты:</p>
-            <p *ngFor="let el of sortedList">
-              {{el?.number || 'хз что такое'}} - {{ (el.number === '00' ? arrNullNumbers[1] : el.number === '0' ? arrNullNumbers[0] : arrNumbers[+el.number - 1]).color}}
-              - {{games[el.index].gold}} - {{games[el.index].time*1000 | date:'HH:mm dd.MM'}}
-            </p>
+            <div class="sorted-list">
+              <table>
+                <tr>
+                  <th>Место</th>
+                  <th>Дата</th>
+                  <th>Число</th>
+                  <th>Выпадений</th>
+                </tr>
+                <tr 
+                  *ngFor="let el of sortedList; let i = index"
+                  [ngClass]="{'second-number': i%2 == 0, 'yellow-number': el.index > 300, 'orange-number': el.index > 400, 'deep-orange-number': el.index > 500 }"
+                >
+                  <td>{{el.index}}</td>
+                  <td>{{games[el.index].time*1000 | date:'HH:mm dd.MM'}}</td>
+                  <td>
+                    <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
+                      {{arrAllNumbers[el.number | numberWin].number}}
+                    </div>
+                  </td>
+                  <td>{{arrAllNumbers[el.number | numberWin].count}}</td>
+                </tr>
+              </table>
+            </div>
 
           </div>
         </div>
 
       </div>
 
-      <div class="col-8">
+      <div class="col-7">
 
-        <div class="block">
+        <div class="common-block">
+          
+          <div class="block">
 
-            <div class="cell null">
-              <div class="cell-inner green">
-                00
-                <div class="count" [ngClass]="{'first-info': arrNullNumbers[1].count === firstMinCounter, 'second-info': arrNullNumbers[1].count === secondMinCounter}">
-                  {{arrNullNumbers[1].count}}
+              <div class="cell null">
+                <div class="cell-inner green">
+                  00
+                  <div class="count" [ngClass]="{'first-info': arrNullNumbers[1].count === firstMinCounter, 'second-info': arrNullNumbers[1].count === secondMinCounter}">
+                    {{arrNullNumbers[1].count}}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="cell null">
-              <div class="cell-inner green">
-                0
-                <div class="count" [ngClass]="{'first-info': arrNullNumbers[0].count === firstMinCounter, 'second-info': arrNullNumbers[0].count === secondMinCounter}">
-                  {{arrNullNumbers[0].count}}
+              <div class="cell null">
+                <div class="cell-inner green">
+                  0
+                  <div class="count" [ngClass]="{'first-info': arrNullNumbers[0].count === firstMinCounter, 'second-info': arrNullNumbers[0].count === secondMinCounter}">
+                    {{arrNullNumbers[0].count}}
+                  </div>
                 </div>
               </div>
-            </div>
 
-        </div>
+          </div>
 
-        <div class="block" *ngFor="let indBlock of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]">
-          <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]">
-            <div class="cell-inner" [ngClass]="arrNumbers[ind].color">
-              {{ind + 1}}
-              <div class="count" [ngClass]="{'first-info': arrNumbers[ind].count === firstMinCounter, 'second-info': arrNumbers[ind].count === secondMinCounter}">
-                {{arrNumbers[ind].count}}
+          <div class="block" *ngFor="let indBlock of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]">
+            <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]">
+              <div class="cell-inner" [ngClass]="arrNumbers[ind].color">
+                {{ind + 1}}
+                <div class="count" [ngClass]="{'first-info': arrNumbers[ind].count === firstMinCounter, 'second-info': arrNumbers[ind].count === secondMinCounter}">
+                  {{arrNumbers[ind].count}}
+                </div>
               </div>
             </div>
           </div>
+
         </div>
 
       </div>

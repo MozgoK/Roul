@@ -29,10 +29,8 @@ export class AppComponent implements OnInit {
   secondMinCounter: number;
 
   sortedList: SortedObj[] = [];
-  // sortedList2: SortedObj[];
 
   arrNumbers: Obj[] = [
-    // new Obj('0', 'green'), new Obj('00', 'green'),
     new Obj('1', 'red'), new Obj('2', 'black'), new Obj('3', 'red'),
     new Obj('4', 'black'), new Obj('5', 'red'), new Obj('6', 'black'),
     new Obj('7', 'red'), new Obj('8', 'black'), new Obj('9', 'red'),
@@ -51,11 +49,23 @@ export class AppComponent implements OnInit {
     new Obj('0', 'green'), new Obj('00', 'green')
   ];
 
+  arrAllNumbers: Obj[] = [];
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+    this.initArrAllNumbers();
     this.getGames();
+  }
+
+  initArrAllNumbers() {
+    this.arrAllNumbers.push(this.arrNullNumbers[0]);
+    this.arrNumbers.forEach((el) => { this.arrAllNumbers.push(el); });
+    this.arrAllNumbers.push(this.arrNullNumbers[1]);
+  }
+
+  numberWin(value: string): number {
+    return value === '00' ? 37 : +value;
   }
 
   getGames() {
@@ -67,14 +77,18 @@ export class AppComponent implements OnInit {
   }
 
   counterGames() {
+    // this.games.forEach((el, ind, arr) => {
+    //   if (el.number === '0') {
+    //     this.arrNullNumbers[0].count++;
+    //   } else if (el.number === '00') {
+    //     this.arrNullNumbers[1].count++;
+    //   } else {
+    //     this.arrNumbers[+el.number - 1].count++;
+    //   }
+    // });
+
     this.games.forEach((el, ind, arr) => {
-      if (el.number === '0') {
-        this.arrNullNumbers[0].count++;
-      } else if (el.number === '00') {
-        this.arrNullNumbers[1].count++;
-      } else {
-        this.arrNumbers[+el.number - 1].count++;
-      }
+      this.arrAllNumbers[this.numberWin(el.number)].count++;
     });
 
     this.searchMinCounters();
@@ -85,7 +99,6 @@ export class AppComponent implements OnInit {
     // console.log(this.arrNullNumbers);
     // console.log(this.arrNumbers);
 
-    // this.games.push({ id: 1, time: 123412, number: '00', gold: '123' });
     this.sortedListFunc();
   }
 
@@ -102,35 +115,44 @@ export class AppComponent implements OnInit {
   }
 
   searchMinCounters() {
-    this.arrNullNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
-    this.arrNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
+    this.firstMinCounter = this.secondMinCounter = 2000;
 
-    this.secondMinCounter = 2000;
+    // this.arrNullNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
+    // this.arrNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
+    this.arrAllNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
+    console.log(this.firstMinCounter);
 
-    this.arrNullNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
-    this.arrNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
+    // this.arrNullNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
+    // this.arrNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
+    this.arrAllNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
+    console.log(this.secondMinCounter);
   }
 
   sortedListFunc() {
+    let flagArr: boolean[] = [];
+    for (let index = 0; index < 38; index++) {
+      flagArr.push(false);
+    }
+
     for (let index = 0; index < this.games.length; index++) {
 
       if (this.sortedList.length >= 38) {
         break;
       } else {
 
-        const element = this.games[index];
-        const elNum = element.number === '00' ? 37 : +element.number;
+        const el = this.games[index];
+        const elNum = el.number === '00' ? 37 : +el.number;
 
-        if (!this.sortedList[elNum]) {
-          this.sortedList[elNum] = {
+        if (!flagArr[elNum]) {
+          this.sortedList.push({
             index,
-            number: element.number
-          };
+            number: el.number
+          });
+          flagArr[elNum] = true;
         }
-        // console.log(this.sortedList.length, element.number);
+
       }
     }
-    // console.log(this.sortedList);
 
     this.sortedList.sort((first, second) => {
       if (first.index > second.index) { return -1; }
@@ -138,24 +160,9 @@ export class AppComponent implements OnInit {
     });
 
 
-    console.log(this.sortedList.length);
-    this.sortedList.length = this.sortedList.reduce((sum, el) => {
-      return sum + (el === undefined ? 0 : 1);
-    }, 0);
-    console.log(this.sortedList.length);
-    // console.log(this.sortedList.reduce((sum, el) => {
-    //   return el === undefined
-    //     ? 0
-    //     : 1;
-    // }, 0));
-
-    // this.sortedList2 = this.sortedList.map((el) => el);
-    // console.log(this.sortedList2);
-    // console.log(this.sortedList2.length);
-    // this.sortedList2.length = 0;
-    // console.log(this.sortedList2.length);
-    // console.log(this.sortedList2[this.sortedList2.length - 2]);
-
+    // this.sortedList.length = this.sortedList.reduce((sum, el) => {
+    //   return sum + (el === undefined ? 0 : 1);
+    // }, 0);
 
   }
 
