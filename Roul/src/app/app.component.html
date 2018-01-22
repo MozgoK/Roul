@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous">
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-4">
+
+        <div class="row">
+          <div class="first info-block">
+            <span class="header">Меньше всего выпадали:</span>
+            <span 
+              *ngFor="let el of arrNullNumbers"
+              [style.display]="el.count === firstMinCounter ? '' : 'none'"
+              [ngClass]="el.color"
+            >
+              {{el.number}}
+            </span>
+
+            <span 
+              *ngFor="let el of arrNumbers"
+              [style.display]="el.count === firstMinCounter ? '' : 'none'"
+              [ngClass]="el.color"
+            >
+              {{el.number}}
+            </span>
+          </div>
+          <div class="second info-block">
+            <span class="header">Чуть больше:</span>
+            <span 
+              *ngFor="let el of arrNullNumbers"
+              [style.display]="el.count === secondMinCounter ? '' : 'none'"
+              [ngClass]="el.color"
+            >
+              {{el.number}}
+            </span>
+
+            <span 
+              *ngFor="let el of arrNumbers"
+              [style.display]="el.count === secondMinCounter ? '' : 'none'"
+              [ngClass]="el.color"
+            >
+              {{el.number}}
+            </span>
+          </div>
+          
+          <div class="first info-block">
+            <p class="header">Сортированный список в порядке возрастания даты:</p>
+            <p *ngFor="let el of sortedList">
+              {{el?.number || 'хз что такое'}} - {{ (el.number === '00' ? arrNullNumbers[1] : el.number === '0' ? arrNullNumbers[0] : arrNumbers[+el.number - 1]).color}}
+              - {{games[el.index].gold}} - {{games[el.index].time*1000 | date:'HH:mm dd.MM'}}
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-8">
+
+        <div class="block">
+
+            <div class="cell null">
+              <div class="cell-inner green">
+                00
+                <div class="count" [ngClass]="{'first-info': arrNullNumbers[1].count === firstMinCounter, 'second-info': arrNullNumbers[1].count === secondMinCounter}">
+                  {{arrNullNumbers[1].count}}
+                </div>
+              </div>
+            </div>
+
+            <div class="cell null">
+              <div class="cell-inner green">
+                0
+                <div class="count" [ngClass]="{'first-info': arrNullNumbers[0].count === firstMinCounter, 'second-info': arrNullNumbers[0].count === secondMinCounter}">
+                  {{arrNullNumbers[0].count}}
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+        <div class="block" *ngFor="let indBlock of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]">
+          <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]">
+            <div class="cell-inner" [ngClass]="arrNumbers[ind].color">
+              {{ind + 1}}
+              <div class="count" [ngClass]="{'first-info': arrNumbers[ind].count === firstMinCounter, 'second-info': arrNumbers[ind].count === secondMinCounter}">
+                {{arrNumbers[ind].count}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+
