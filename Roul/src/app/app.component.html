@@ -1,11 +1,12 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-  crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+  crossorigin="anonymous"> -->
+<!-- <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"> -->
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans|Vollkorn|Roboto" rel="stylesheet">
+<div>
+  <div class="my-row">
+      <div class="my-col">
 
-<div class="container-fluid">
-    <div class="row">
-      <div class="col-5">
-
-        <div class="row">
+        
           <div class="first info-block">
             <span class="header">Меньше всего выпадали:</span>
             <span 
@@ -16,15 +17,8 @@
               {{el.number}}
               <div class="count"></div>
             </span>
-
-            <!-- <span 
-              *ngFor="let el of arrNumbers"
-              [style.display]="el.count === firstMinCounter ? '' : 'none'"
-              [ngClass]="el.color"
-            >
-              {{el.number}}
-            </span> -->
           </div>
+
           <div class="second info-block">
             <span class="header">Чуть больше:</span>
             <span 
@@ -35,14 +29,6 @@
               {{el.number}}
               <div class="count"></div>
             </span>
-
-            <!-- <span 
-              *ngFor="let el of arrNumbers"
-              [style.display]="el.count === secondMinCounter ? '' : 'none'"
-              [ngClass]="el.color"
-            >
-              {{el.number}}
-            </span> -->
           </div>
           
           <div class="first info-block">
@@ -76,11 +62,11 @@
             </div>
 
           </div>
-        </div>
+        
 
       </div>
 
-      <div class="col-7">
+      <div class="my-col">
 
         <div class="common-block">
           
@@ -119,7 +105,39 @@
 
         </div>
 
+                  <div class="first info-block statistics">
+                    <p class="header">Последние 25 игр:</p>
+                    <div class="sorted-list">
+                      <table>
+                        <tr>
+                          <th>№</th>
+                          <th>Дата</th>
+                          <th>Число</th>
+                          <!-- <th>Выпадений</th> -->
+                        </tr>
+                        <tr
+                          *ngFor="let el of games | slice:0:25; let i = index"
+                          [ngClass]="{'second-number': i%2 == 0 }"
+                        >
+                          <td>{{el.id}}</td>
+                          <td>{{el.time*1000 | date:'HH:mm dd.MM'}}</td>
+                          <td>
+                            <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
+                              {{el.number}}
+                              <!-- <div class="count" [ngClass]="{'first': arrAllNumbers[el.number | numberWin].count === firstMinCounter, 
+                                                      'second': arrAllNumbers[el.number | numberWin].count === secondMinCounter}">
+                              </div> -->
+                            </div>
+                          </td>
+                          <!-- <td>1</td> -->
+                        </tr>
+                      </table>
+                    </div>
+                  
+                  </div>
+
       </div>
-    </div>
+
+      </div>
 </div>
 
