@@ -6,7 +6,6 @@
   <div class="my-row">
       <div class="my-col">
 
-        
           <div class="first info-block">
             <span class="header">Меньше всего выпадали:</span>
             <span 
@@ -46,7 +45,7 @@
                   [ngClass]="{'second-number': i%2 == 0, 'yellow-number': el.index > 300, 'orange-number': el.index > 400, 'deep-orange-number': el.index > 500 }"
                 >
                   <td>{{el.index}}</td>
-                  <td>{{games[el.index].time*1000 | date:'HH:mm dd.MM'}}</td>
+                  <td>{{games[el.index].time*1000 | date:'HH:mm | dd.MM'}}</td>
                   <td>
                     <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
                       {{arrAllNumbers[el.number | numberWin].number}}
@@ -105,6 +104,18 @@
 
         </div>
 
+                  <div class="status-block">
+                    <div class="status-cell green">
+                      Зеленых - {{colorsCount.green}}
+                    </div>
+                    <div class="status-cell red">
+                      Красных - {{colorsCount.red}}
+                    </div>
+                    <div class="status-cell black">
+                      Черных - {{colorsCount.black}}
+                    </div>
+                  </div>
+
                   <div class="first info-block statistics">
                     <p class="header scroll">Последние 25 игр:</p>
                     <div class="sorted-list">
@@ -119,8 +130,8 @@
                           *ngFor="let el of games | slice:0:25; let i = index"
                           [ngClass]="{'second-number': i%2 == 0 }"
                         >
-                          <td>{{el.id}}</td>
-                          <td>{{el.time*1000 | date:'HH:mm dd.MM'}}</td>
+                          <td>{{el.id + '' | slice:-3}}</td>
+                          <td>{{el.time*1000 | date:'HH:mm | dd.MM'}}</td>
                           <td>
                             <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
                               {{el.number}}

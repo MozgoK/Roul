@@ -14,6 +14,9 @@
 
 @fs14: 14px;
 
+@firstGradient: linear-gradient(135deg, rgba(255,255,255,0) 52%, @firstColor 53%);
+@secondGradient: linear-gradient(135deg, rgba(255,255,255,0) 52%, @secondColor 53%);
+
 .second-number { background: rgba(0,0,0,.06); }
 .yellow-number { background: #FFC107; }
 .orange-number { background: #FF9800; }
@@ -104,11 +107,11 @@ table, th, td {
       color: white;
 
       &.first-info {
-        background:  linear-gradient(135deg, rgba(255,255,255,0) 49%, @firstColor 50%);
+        background:  @firstGradient;
       }
 
       &.second-info {
-        background:  linear-gradient(135deg, rgba(255,255,255,0) 49%, @secondColor 50%);
+        background:  @secondGradient;
       }
     }
   }
@@ -163,7 +166,7 @@ table, th, td {
       // background: @thirdColor;
 
       & .count {
-        background:  linear-gradient(135deg, rgba(255,255,255,0) 49%, @firstColor 50%);
+        background:  @firstGradient;
       }
     }
 
@@ -175,7 +178,7 @@ table, th, td {
       }
 
       & .count {
-        background:  linear-gradient(135deg, rgba(255,255,255,0) 49%, @secondColor 50%);
+        background:  @secondGradient;
       }
     }
 
@@ -284,11 +287,11 @@ table, th, td {
           background: none;
 
           &.first {
-            background: linear-gradient(135deg, rgba(255,255,255,0) 49%, @firstColor 50%);;
+            background: @firstGradient;
           }
 
           &.second {
-            background: linear-gradient(135deg, rgba(255,255,255,0) 49%, @secondColor 50%);
+            background: @secondGradient;
           }
         }
       }
@@ -357,11 +360,18 @@ table, th, td {
 
   &.null {
     height: 77px;
+
+    & .cell-inner {
+      // border: none;
+      border-color: black;
+    }
   }
 
   & .cell-inner {
     box-shadow: 0 3px 3px rgba(0,0,0,.23), 0 3px 3px rgba(0,0,0,.16);
     border-radius: 0;
+    border-bottom: 1px solid rgba(0,0,0,.4);
+    box-sizing: border-box;
 
     & .count {
       font-size: 10px;
@@ -369,6 +379,31 @@ table, th, td {
       width: 20px;
       background: none;
       border-bottom-right-radius: 0;
+    }
+  }
+}
+
+.status-block {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+
+  & .status-cell {
+    width: 120px;
+    border-radius: 3px;
+    padding: 4px;
+    position: relative;
+    font-family: inherit;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.23), 0 3px 3px rgba(0, 0, 0, 0.16);
+    border-radius: 0;
+    margin: 2px 15px;
+    font-size: @fs14;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+
+    &.green {
+      border-color: black;
     }
   }
 }

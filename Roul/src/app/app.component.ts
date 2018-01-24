@@ -30,6 +30,12 @@ export class AppComponent implements OnInit {
 
   sortedList: SortedObj[] = [];
 
+  colorsCount = {
+    green: 0,
+    red: 0,
+    black: 0
+  };
+
   arrNumbers: Obj[] = [
     new Obj('1', 'red'), new Obj('2', 'black'), new Obj('3', 'red'),
     new Obj('4', 'black'), new Obj('5', 'red'), new Obj('6', 'black'),
@@ -77,19 +83,12 @@ export class AppComponent implements OnInit {
   }
 
   counterGames() {
-    // this.games.forEach((el, ind, arr) => {
-    //   if (el.number === '0') {
-    //     this.arrNullNumbers[0].count++;
-    //   } else if (el.number === '00') {
-    //     this.arrNullNumbers[1].count++;
-    //   } else {
-    //     this.arrNumbers[+el.number - 1].count++;
-    //   }
-    // });
 
     this.games.forEach((el, ind, arr) => {
       this.arrAllNumbers[this.numberWin(el.number)].count++;
     });
+
+    this.countingСolor();
 
     this.searchMinCounters();
 
@@ -117,13 +116,9 @@ export class AppComponent implements OnInit {
   searchMinCounters() {
     this.firstMinCounter = this.secondMinCounter = 2000;
 
-    // this.arrNullNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
-    // this.arrNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
     this.arrAllNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
     console.log(this.firstMinCounter);
 
-    // this.arrNullNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
-    // this.arrNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
     this.arrAllNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
     console.log(this.secondMinCounter);
   }
@@ -158,12 +153,18 @@ export class AppComponent implements OnInit {
       if (first.index > second.index) { return -1; }
       if (first.index < second.index) { return 1; }
     });
+  }
 
+  countingСolor() {
+    this.colorsCount.green = this.colorsCount.red = this.colorsCount.black = 0;
 
-    // this.sortedList.length = this.sortedList.reduce((sum, el) => {
-    //   return sum + (el === undefined ? 0 : 1);
-    // }, 0);
-
+    this.arrAllNumbers.forEach((el) => {
+      switch (el.color) {
+        case 'green': this.colorsCount.green += el.count; break;
+        case 'red': this.colorsCount.red += el.count; break;
+        case 'black': this.colorsCount.black += el.count; break;
+      }
+    });
   }
 
 }
