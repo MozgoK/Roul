@@ -128,7 +128,7 @@
                         </tr>
                         <tr
                           *ngFor="let el of games | slice:0:25; let i = index"
-                          [ngClass]="{'second-number': i%2 == 0 }"
+                          [ngClass]="{'second-number': i%2 == 0, 'deep-orange-number': consecutiveNumbers.flag && i < consecutiveNumbers.num }"
                         >
                           <td>{{el.id + '' | slice:-3}}</td>
                           <td>{{el.time*1000 | date:'HH:mm | dd.MM'}}</td>

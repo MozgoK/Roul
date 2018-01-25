@@ -30,6 +30,12 @@ export class AppComponent implements OnInit {
 
   sortedList: SortedObj[] = [];
 
+  consecutiveNumbers: { flag: boolean, num: number, required: number} = {
+    flag: false,
+    num: 0,
+    required: 10
+  };
+
   colorsCount = {
     green: 0,
     red: 0,
@@ -99,6 +105,8 @@ export class AppComponent implements OnInit {
     // console.log(this.arrNumbers);
 
     this.sortedListFunc();
+
+    this.checkConsecutiveNumbers();
   }
 
   searchFirstMinCounterFunc(el: Obj) {
@@ -165,6 +173,29 @@ export class AppComponent implements OnInit {
         case 'black': this.colorsCount.black += el.count; break;
       }
     });
+  }
+
+  checkConsecutiveNumbers() {
+    // this.games[0] = this.games[2] = {time: 12312312, id: 598, number: '11', gold: '3413423'};
+    this.consecutiveNumbers.flag = true;
+    this.consecutiveNumbers.num = 1;
+
+    const tempColor = this.arrAllNumbers[this.numberWin(this.games[0].number)].color;
+
+    for (let i = 1; i < 24; i++) {
+      const el = this.games[i];
+      if (this.arrAllNumbers[this.numberWin(el.number)].color !== tempColor) {
+        break;
+      } else {
+        this.consecutiveNumbers.num++;
+      }
+    }
+
+    if (this.consecutiveNumbers.num >= this.consecutiveNumbers.required) {
+
+    } else {
+      this.consecutiveNumbers.flag = false;
+    }
   }
 
 }
