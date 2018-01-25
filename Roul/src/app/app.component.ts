@@ -42,6 +42,19 @@ export class AppComponent implements OnInit {
     black: 0
   };
 
+  fields = [
+    {text: '1st 12', num: 0},
+    {text: '2st 12', num: 0},
+    {text: '3st 12', num: 0, flag: true},
+    {text: '1st line', num: 0},
+    {text: '2st line', num: 0},
+    {text: '3st line', num: 0, flag: true},
+    {text: '1 to 18', num: 0},
+    {text: '19 to 36', num: 0, flag: true},
+    {text: 'Even', num: 0},
+    {text: 'Odd', num: 0, end: true}
+  ];
+
   arrNumbers: Obj[] = [
     new Obj('1', 'red'), new Obj('2', 'black'), new Obj('3', 'red'),
     new Obj('4', 'black'), new Obj('5', 'red'), new Obj('6', 'black'),

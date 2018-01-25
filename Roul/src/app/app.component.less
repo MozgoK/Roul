@@ -41,6 +41,12 @@ table, th, td {
   width: max-content;
   padding: 10px;
   float: left;
+
+  &:after {
+    content: '';
+    clear: both;
+    display: block;
+  }
 }
 
 .my-row {
@@ -144,12 +150,22 @@ table, th, td {
     color: rgba(0, 0, 0, 0.87);
     background: white;
 
+
+    &.float {
+      float: left;
+
+      & + .float {
+        margin-left: 20px;
+      }
+    }
+
     &.statistics {
       width: 300px;
 
       & .sorted-list {
         overflow-x: hidden;
-        max-height: 398px;
+        // max-height: 398px;
+        max-height: 470px;
 
         & table {
           // width: 286px;
@@ -405,5 +421,23 @@ table, th, td {
     &.green {
       border-color: black;
     }
+  }
+}
+
+
+
+.hr-before {
+  color: rgba(0, 0, 0, 0.87);
+  padding: 12px;
+}
+
+.hr-div {
+  margin: 0 15px;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgba(0, 0, 0, 0.12);
+
+  &.dark {
+    border-top-color: rgba(0, 0, 0, 0.3);
   }
 }

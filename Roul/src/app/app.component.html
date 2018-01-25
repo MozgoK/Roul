@@ -92,7 +92,10 @@
           </div>
 
           <div class="block" *ngFor="let indBlock of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]">
-            <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]">
+            <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]"
+             [style.background]="(indBlock === 0 && fields[0].over) || (indBlock === 1 && fields[0].over) || (indBlock === 2 && fields[0].over) || (indBlock === 3 && fields[0].over) ? 'cyan' : ''"
+             [style.background]="(ind === indBlock*3 + 0 && fields[3].over) ? 'red' : ''"
+            >
               <div class="cell-inner" [ngClass]="arrNumbers[ind].color">
                 {{ind + 1}}
                 <div class="count" [ngClass]="{'first-info': arrNumbers[ind].count === firstMinCounter, 'second-info': arrNumbers[ind].count === secondMinCounter}">
@@ -116,7 +119,7 @@
                     </div>
                   </div>
 
-                  <div class="first info-block statistics">
+                  <div class="first info-block statistics float">
                     <p class="header scroll">Последние 25 игр:</p>
                     <div class="sorted-list">
                       <table>
@@ -143,6 +146,24 @@
                           <!-- <td>1</td> -->
                         </tr>
                       </table>
+                    </div>
+                  
+                  </div>
+
+                  <div class="first info-block statistics float">
+                    <p class="header">Последние 25 игр:</p>
+                    <div class="sorted-list">
+                      
+                    <!-- <ng-template > -->
+                    <div *ngFor="let item of fields">
+                      <div class="hr-before" (mouseover)="item.over = true" (mouseleave)="item.over = false">
+                        {{item.text}} - {{item.num}}
+                      </div>
+                      <div class="hr-div" *ngIf="!item.flag && !item.end"></div>
+                      <div class="hr-div dark" *ngIf="item.flag"></div>
+                    </div>
+                    <!-- </ng-template> -->
+
                     </div>
                   
                   </div>
