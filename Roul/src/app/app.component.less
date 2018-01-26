@@ -94,6 +94,7 @@ table, th, td {
     position: relative;
     border-radius: @br;
     font-family: @numberFont;
+    cursor: pointer;
 
     & .count {
       position: absolute;
@@ -160,12 +161,32 @@ table, th, td {
     }
 
     &.statistics {
-      width: 300px;
+      // width: 300px;
+      // width: calc(50% - 12px);
+      width: 340px;
 
       & .sorted-list {
         overflow-x: hidden;
         // max-height: 398px;
         max-height: 470px;
+
+        &.fields {
+          & table td {
+            padding: 7px 0;
+            width: 50%;
+            cursor: default;
+          }
+
+          
+          & .min {
+            background: rgba(244, 67, 54, .1);
+          }
+          & .hover-row {
+            background: rgba(0, 0, 0, 0.06);
+          }
+
+
+        }
 
         & table {
           // width: 286px;
@@ -216,6 +237,9 @@ table, th, td {
       // New!!!
       box-shadow: 0 3px 3px rgba(0, 0, 0, 0.23), 0 3px 3px rgba(0, 0, 0, 0.16);
       border-radius: 0;
+      transition: all .2s;
+
+      cursor: pointer;
 
       & .count {
         position: absolute;
@@ -233,8 +257,6 @@ table, th, td {
 
     .header {
       margin: 0;
-      // color: rgba(0, 0, 0, 0.54);
-      // background: rgba(0, 0, 0, 0.05);
       color: white;
       background: #00BCD4;
       align-content: center;
@@ -248,7 +270,6 @@ table, th, td {
       -ms-flex-pack: center;
       justify-content: center;
       padding: 12px 20px;
-      // font-weight: 600;
 
       &.scroll {
         box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
@@ -281,7 +302,8 @@ table, th, td {
         padding: 4px;
         position: relative;
         font-family: @numberFont;
-        // margin: 0 auto;
+        transition: all .2s;
+        cursor: pointer;
 
 
         // New!!!
@@ -299,7 +321,6 @@ table, th, td {
           display: flex;
           justify-content: flex-end;
           align-items: flex-end;
-          // border-bottom-right-radius: @br;
           background: none;
 
           &.first {
@@ -312,12 +333,6 @@ table, th, td {
         }
       }
     }
-
-    // & td {
-    //     &.red {background: red; color: #282a27;}
-    //     &.black {background: #333532; color: #fff;}
-    //     &.green {background: #46b652;}
-    // }
   }
 }
 
@@ -329,47 +344,15 @@ table, th, td {
 
 
 /* width */
-::-webkit-scrollbar {
-    width: 5px;
-}
-
+::-webkit-scrollbar { width: 5px; }
 /* Track */
-::-webkit-scrollbar-track {
-    background: #f1f1f1; 
-}
-
+::-webkit-scrollbar-track { background: #f1f1f1; }
 /* Handle */
-::-webkit-scrollbar-thumb {
-    background: #888; 
-}
-
+::-webkit-scrollbar-thumb { background: #888; }
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-}
+::-webkit-scrollbar-thumb:hover { background: #555; }
 
 
-
-// .info-block {
-
-//   box-shadow: 0 3px 10px rgba(0,0,0,.23), 0 3px 10px rgba(0,0,0,.16);
-//   color: rgba(0,0,0,.84);
-//   background: #fafafa !important;
-//   padding: 0;
-//   border-radius: 0;
-
-//   & .header {
-//     display: block;
-//     background: #536DFE;
-//     color: white !important;
-//     padding: 15px;
-//     margin: 0;
-//     box-shadow: 0 2px 6px rgba(0,0,0,.2);
-//   }
-//   & .sorted-list {
-//     border: none;
-//   }
-// }
 
 .cell {
   height: 50px;
@@ -378,7 +361,6 @@ table, th, td {
     height: 77px;
 
     & .cell-inner {
-      // border: none;
       border-color: black;
     }
   }
@@ -388,6 +370,8 @@ table, th, td {
     border-radius: 0;
     border-bottom: 1px solid rgba(0,0,0,.4);
     box-sizing: border-box;
+
+    transition: all .2s;
 
     & .count {
       font-size: 10px;
@@ -424,20 +408,30 @@ table, th, td {
   }
 }
 
+// .hr-before {
+//   color: rgba(0, 0, 0, 0.87);
+//   padding: 12px;
+//   cursor: default;
 
+//   &:hover {
+//     background: rgba(0, 0, 0, 0.06);
+//   }
+// }
 
-.hr-before {
-  color: rgba(0, 0, 0, 0.87);
-  padding: 12px;
+// .hr-div {
+//   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+//   &.dark {
+//     border-bottom-color: rgba(0, 0, 0, 0.3);
+//   }
+// }
+
+.hover {
+  background: #F44336;
+  color: white;
 }
 
-.hr-div {
-  margin: 0 15px;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-top-color: rgba(0, 0, 0, 0.12);
-
-  &.dark {
-    border-top-color: rgba(0, 0, 0, 0.3);
-  }
+.cell-clicked {
+  background: #F44336;
+  color: white;
 }

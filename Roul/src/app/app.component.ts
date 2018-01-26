@@ -43,16 +43,24 @@ export class AppComponent implements OnInit {
   };
 
   fields = [
-    {text: '1st 12', num: 0},
-    {text: '2st 12', num: 0},
-    {text: '3st 12', num: 0, flag: true},
-    {text: '1st line', num: 0},
-    {text: '2st line', num: 0},
-    {text: '3st line', num: 0, flag: true},
-    {text: '1 to 18', num: 0},
-    {text: '19 to 36', num: 0, flag: true},
-    {text: 'Even', num: 0},
-    {text: 'Odd', num: 0, end: true}
+    [
+      { text: '1st 12', num: 0, min: false },
+      { text: '2nd 12', num: 0, min: false },
+      { text: '3rd 12', num: 0, min: false }
+    ],
+    [
+      { text: '1st line', num: 0, min: false },
+      { text: '2nd line', num: 0, min: false },
+      { text: '3rd line', num: 0, min: false }
+    ],
+    [
+      { text: '1 to 18', num: 0, min: false },
+      { text: '19 to 36', num: 0, min: false }
+    ],
+    [
+      { text: 'Even', num: 0, min: false },
+      { text: 'Odd', num: 0, min: false }
+    ]
   ];
 
   arrNumbers: Obj[] = [
@@ -75,6 +83,8 @@ export class AppComponent implements OnInit {
   ];
 
   arrAllNumbers: Obj[] = [];
+
+  cellClicked = '';
 
   constructor(private http: HttpClient) {}
 
@@ -107,6 +117,8 @@ export class AppComponent implements OnInit {
       this.arrAllNumbers[this.numberWin(el.number)].count++;
     });
 
+    this.counterFields();
+
     this.countingСolor();
 
     this.searchMinCounters();
@@ -138,10 +150,8 @@ export class AppComponent implements OnInit {
     this.firstMinCounter = this.secondMinCounter = 2000;
 
     this.arrAllNumbers.forEach(this.searchFirstMinCounterFunc.bind(this));
-    console.log(this.firstMinCounter);
 
     this.arrAllNumbers.forEach(this.searchSecondMinCounterFunc.bind(this));
-    console.log(this.secondMinCounter);
   }
 
   sortedListFunc() {
@@ -189,7 +199,6 @@ export class AppComponent implements OnInit {
   }
 
   checkConsecutiveNumbers() {
-    // this.games[0] = this.games[2] = {time: 12312312, id: 598, number: '11', gold: '3413423'};
     this.consecutiveNumbers.flag = true;
     this.consecutiveNumbers.num = 1;
 
@@ -209,6 +218,68 @@ export class AppComponent implements OnInit {
     } else {
       this.consecutiveNumbers.flag = false;
     }
+  }
+
+
+  counterFields() {
+    this.fields.forEach((el) => el.forEach((innEl) => {
+      innEl.num = 0;
+      innEl.min = false;
+    }));
+
+    this.arrNumbers.forEach(this.counterField.bind(this));
+
+    // Находим max в областях
+    this.fields.forEach((el) => {
+      const tempArr: number[] = [];
+      let tempMin: number = 0;
+
+      el.forEach((innEl) => {
+        tempArr.push(innEl.num);
+      });
+
+      tempMin = Math.min(...tempArr);
+
+      el.forEach((innEl) => {
+        if (innEl.num === tempMin) {
+          innEl.min = true;
+        }
+      });
+    });
+  }
+
+  counterField(el: Obj) {
+    const number: number = +el.number,
+      count: number = el.count;
+
+    switch (true) {
+      case (number >= 1 && number <= 12): this.fields[0][0].num += count; break;
+      case (number >= 13 && number <= 24): this.fields[0][1].num += count; break;
+      case (number >= 25 && number <= 36): this.fields[0][2].num += count; break;
+    }
+
+    switch (true) {
+      case ((number % 3) === 1): this.fields[1][0].num += count; break;
+      case ((number % 3) === 2): this.fields[1][1].num += count; break;
+      case ((number % 3) === 0): this.fields[1][2].num += count; break;
+    }
+
+    switch (true) {
+      case (number >= 1 && number <= 18): this.fields[2][0].num += count; break;
+      case (number >= 19 && number <= 36): this.fields[2][1].num += count; break;
+    }
+
+    switch (true) {
+      case (number % 2 === 0): this.fields[3][0].num += count; break;
+      case (number % 2 === 1): this.fields[3][1].num += count; break;
+    }
+  }
+
+  clickCell(ind: string) {
+    this.cellClicked =
+      this.cellClicked === ind
+        ? ''
+        : ind;
   }
 
 }

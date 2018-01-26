@@ -12,6 +12,8 @@
               *ngFor="let el of arrAllNumbers"
               [style.display]="el.count === firstMinCounter ? '' : 'none'"
               [ngClass]="el.color"
+              [class.cell-clicked]="cellClicked === el.number"
+              (click)="clickCell(el.number)"
             >
               {{el.number}}
               <div class="count"></div>
@@ -24,6 +26,8 @@
               *ngFor="let el of arrAllNumbers"
               [style.display]="el.count === secondMinCounter ? '' : 'none'"
               [ngClass]="el.color"
+              [class.cell-clicked]="cellClicked === el.number"
+              (click)="clickCell(el.number)"
             >
               {{el.number}}
               <div class="count"></div>
@@ -47,7 +51,12 @@
                   <td>{{el.index}}</td>
                   <td>{{games[el.index].time*1000 | date:'HH:mm | dd.MM'}}</td>
                   <td>
-                    <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
+                    <div
+                      class="td-cell"
+                      [ngClass]="arrAllNumbers[el.number | numberWin].color"
+                      [class.cell-clicked]="cellClicked === el.number"
+                      (click)="clickCell(el.number)"
+                    >
                       {{arrAllNumbers[el.number | numberWin].number}}
                       <div class="count" 
                         [ngClass]="{'first': arrAllNumbers[el.number | numberWin].count === firstMinCounter, 
@@ -72,7 +81,7 @@
           <div class="block">
 
               <div class="cell null">
-                <div class="cell-inner green">
+                <div class="cell-inner green" (click)="clickCell('00')" [class.cell-clicked]="cellClicked === '00'">
                   00
                   <div class="count" [ngClass]="{'first-info': arrNullNumbers[1].count === firstMinCounter, 'second-info': arrNullNumbers[1].count === secondMinCounter}">
                     {{arrNullNumbers[1].count}}
@@ -81,7 +90,7 @@
               </div>
 
               <div class="cell null">
-                <div class="cell-inner green">
+                <div class="cell-inner green" (click)="clickCell('0')" [class.cell-clicked]="cellClicked === '0'">
                   0
                   <div class="count" [ngClass]="{'first-info': arrNullNumbers[0].count === firstMinCounter, 'second-info': arrNullNumbers[0].count === secondMinCounter}">
                     {{arrNullNumbers[0].count}}
@@ -92,11 +101,19 @@
           </div>
 
           <div class="block" *ngFor="let indBlock of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]">
-            <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]"
-             [style.background]="(indBlock === 0 && fields[0].over) || (indBlock === 1 && fields[0].over) || (indBlock === 2 && fields[0].over) || (indBlock === 3 && fields[0].over) ? 'cyan' : ''"
-             [style.background]="(ind === indBlock*3 + 0 && fields[3].over) ? 'red' : ''"
-            >
-              <div class="cell-inner" [ngClass]="arrNumbers[ind].color">
+            <div class="cell" *ngFor="let ind of [indBlock*3 + 2, indBlock*3 + 1, indBlock*3 + 0]">
+              <div class="cell-inner" 
+                [ngClass]="arrNumbers[ind].color"
+                [class.hover]="
+                  (indBlock === 0 && fields[0][0].over) || (indBlock === 1 && fields[0][0].over) || (indBlock === 2 && fields[0][0].over) || (indBlock === 3 && fields[0][0].over) ||
+                  (indBlock === 4 && fields[0][1].over) || (indBlock === 5 && fields[0][1].over) || (indBlock === 6 && fields[0][1].over) || (indBlock === 7 && fields[0][1].over) ||
+                  (indBlock === 8 && fields[0][2].over) || (indBlock === 9 && fields[0][2].over) || (indBlock === 10 && fields[0][2].over) || (indBlock === 11 && fields[0][2].over) ||
+                  (ind === indBlock*3 + 0 && fields[1][0].over) || (ind === indBlock*3 + 1 && fields[1][1].over) || (ind === indBlock*3 + 2 && fields[1][2].over) ||
+                  (ind < 18 && fields[2][0].over) || (ind >= 18 && fields[2][1].over) ||
+                  ((ind + 1)%2 === 0 && fields[3][0].over) || ((ind + 1)%2 != 0 && fields[3][1].over)"
+                [class.cell-clicked]="cellClicked === (ind + 1) + ''"
+                (click)="clickCell((ind + 1) + '')"
+              >
                 {{ind + 1}}
                 <div class="count" [ngClass]="{'first-info': arrNumbers[ind].count === firstMinCounter, 'second-info': arrNumbers[ind].count === secondMinCounter}">
                   {{arrNumbers[ind].count}}
@@ -107,66 +124,85 @@
 
         </div>
 
-                  <div class="status-block">
-                    <div class="status-cell green">
-                      Зеленых - {{colorsCount.green}}
-                    </div>
-                    <div class="status-cell red">
-                      Красных - {{colorsCount.red}}
-                    </div>
-                    <div class="status-cell black">
-                      Черных - {{colorsCount.black}}
-                    </div>
-                  </div>
 
-                  <div class="first info-block statistics float">
-                    <p class="header scroll">Последние 25 игр:</p>
-                    <div class="sorted-list">
-                      <table>
-                        <tr>
-                          <th>№</th>
-                          <th>Дата</th>
-                          <th>Число</th>
-                          <!-- <th>Выпадений</th> -->
-                        </tr>
-                        <tr
-                          *ngFor="let el of games | slice:0:25; let i = index"
-                          [ngClass]="{'second-number': i%2 == 0, 'deep-orange-number': consecutiveNumbers.flag && i < consecutiveNumbers.num }"
-                        >
-                          <td>{{el.id + '' | slice:-3}}</td>
-                          <td>{{el.time*1000 | date:'HH:mm | dd.MM'}}</td>
-                          <td>
-                            <div class="td-cell" [ngClass]="arrAllNumbers[el.number | numberWin].color">
-                              {{el.number}}
-                              <!-- <div class="count" [ngClass]="{'first': arrAllNumbers[el.number | numberWin].count === firstMinCounter, 
-                                                      'second': arrAllNumbers[el.number | numberWin].count === secondMinCounter}">
-                              </div> -->
-                            </div>
-                          </td>
-                          <!-- <td>1</td> -->
-                        </tr>
-                      </table>
-                    </div>
-                  
-                  </div>
+        <div class="status-block">
+          <div class="status-cell green">
+            Зеленых - {{colorsCount.green}}
+          </div>
+          <div class="status-cell red">
+            Красных - {{colorsCount.red}}
+          </div>
+          <div class="status-cell black">
+            Черных - {{colorsCount.black}}
+          </div>
+        </div>
 
-                  <div class="first info-block statistics float">
-                    <p class="header">Последние 25 игр:</p>
-                    <div class="sorted-list">
-                      
-                    <!-- <ng-template > -->
-                    <div *ngFor="let item of fields">
-                      <div class="hr-before" (mouseover)="item.over = true" (mouseleave)="item.over = false">
-                        {{item.text}} - {{item.num}}
-                      </div>
-                      <div class="hr-div" *ngIf="!item.flag && !item.end"></div>
-                      <div class="hr-div dark" *ngIf="item.flag"></div>
-                    </div>
-                    <!-- </ng-template> -->
-
-                    </div>
-                  
+        <div class="first info-block statistics float">
+          <p class="header scroll">Последние 25 игр:</p>
+          <div class="sorted-list">
+            <table>
+              <tr>
+                <th>№</th>
+                <th>Дата</th>
+                <th>Число</th>
+                <!-- <th>Выпадений</th> -->
+              </tr>
+              <tr
+                *ngFor="let el of games | slice:0:25; let i = index"
+                [ngClass]="{
+                  'second-number': i%2 == 0, 
+                  'deep-orange-number': consecutiveNumbers.flag && i < consecutiveNumbers.num
+                }"
+              >
+                <td>{{el.id + '' | slice:-3}}</td>
+                <td>{{el.time*1000 | date:'HH:mm | dd.MM'}}</td>
+                <td>
+                  <div 
+                    class="td-cell" 
+                    [ngClass]="arrAllNumbers[el.number | numberWin].color" 
+                    [class.cell-clicked]="cellClicked === el.number"
+                    (click)="clickCell(el.number)"
+                  >
+                    {{el.number}}
                   </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        
+        </div>
+
+        <div class="first info-block statistics float">
+          <p class="header">По областям:</p>
+          <div class="sorted-list fields">
+            <div>
+
+
+              <table>
+                <tr>
+                  <th>Область</th>
+                  <th>Выпадений</th>
+                </tr>
+
+                <ng-template ngFor let-ind="index" let-field [ngForOf]="fields">
+                  <tr 
+                    *ngFor="let item of field; let i = index;" 
+                    (mouseover)="item.over = true" 
+                    (mouseleave)="item.over = false"
+                    [ngClass]="{'min': item.min, 'last': i === fields[0].length - 1, 'hover-row': item.over, 'hr-div': i === field.length - 1 && ind !== fields.length - 1}"
+                  >
+                    <td>{{item.text}}</td>
+                    <td>{{item.num}}</td>
+                  </tr>
+                </ng-template>
+                
+              </table>
+            </div>
+        
+          </div>
+        </div>
+
+
 
       </div>
 
