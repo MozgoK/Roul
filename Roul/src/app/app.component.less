@@ -22,8 +22,6 @@
 .orange-number { background: #FF9800; }
 .deep-orange-number { background: #FF5722; }
 
-html { height: 100%; }
-
 body {
   // background: linear-gradient(180deg, #808080, #E6E6E6);
   background: linear-gradient(0deg, #333333 , #5a5454);
@@ -161,9 +159,8 @@ table, th, td {
     }
 
     &.statistics {
-      // width: 300px;
-      // width: calc(50% - 12px);
-      width: 340px;
+      // width: 340px;
+      width: 337px;
 
       & .sorted-list {
         overflow-x: hidden;
@@ -390,7 +387,6 @@ table, th, td {
 
   & .status-cell {
     width: 120px;
-    border-radius: 3px;
     padding: 4px;
     position: relative;
     font-family: inherit;
@@ -418,13 +414,9 @@ table, th, td {
 //   }
 // }
 
-// .hr-div {
-//   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-//   &.dark {
-//     border-bottom-color: rgba(0, 0, 0, 0.3);
-//   }
-// }
+.hr-div {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
 
 .hover {
   background: #F44336;
@@ -434,4 +426,25 @@ table, th, td {
 .cell-clicked {
   background: #F44336;
   color: white;
+}
+
+
+.timer {
+    width: 170px;
+    padding: 4px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: inherit;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.23), 0 3px 3px rgba(0, 0, 0, 0.16);
+    border-radius: 0;
+    font-size: @fs14;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+
+    background: #282a27;
+    color: #fff;
+
+    transition: all .3s;
 }

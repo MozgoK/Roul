@@ -1,6 +1,16 @@
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
   crossorigin="anonymous"> -->
 <!-- <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet"> -->
+
+<div class="loader" [ngStyle]="{display: loader.visible ? 'flex' : '', opacity: loader.op ? 1 : 0}">
+  <div class="container-spanner" [ngStyle]="{display: loader.container ? 'block' : 'none'}">
+    <svg viewBox="0 0 100 100">
+      <circle cx="50%" cy="50%" r="45"></circle>
+    </svg>
+  </div>
+</div>
+
+
 <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Vollkorn|Roboto" rel="stylesheet">
 <div>
   <div class="my-row">
@@ -179,7 +189,7 @@
 
 
               <table>
-                <tr>
+                <tr class="hr-div">
                   <th>Область</th>
                   <th>Выпадений</th>
                 </tr>
@@ -209,3 +219,6 @@
       </div>
 </div>
 
+<div class="timer" [style.opacity]="(timerObj.minutes === 0 && timerObj.seconds === 0) ? 0 : 1 ">
+  Reload after {{timerObj.minutes | number:'2.'}}:{{timerObj.seconds | number:'2.'}}
+</div>

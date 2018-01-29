@@ -85,6 +85,16 @@ export class AppComponent implements OnInit {
   arrAllNumbers: Obj[] = [];
 
   cellClicked = '';
+  loader = {
+    visible: false,
+    op: false,
+    container: false
+  }
+
+  timerObj: any = {
+    minutes: 0,
+    seconds: 0
+  };
 
   constructor(private http: HttpClient) {}
 
@@ -103,7 +113,22 @@ export class AppComponent implements OnInit {
     return value === '00' ? 37 : +value;
   }
 
+  loaderFunc(flag) {
+    if (flag) {
+      this.loader.visible = this.loader.op = true;
+      setTimeout(() => this.loader.container = true, 300);
+    } else {
+      this.loader.container = this.loader.op = false;
+      setTimeout(() => {
+        this.loader.visible = false;
+        this.timer();
+      }, 300);
+    }
+  }
+
   getGames() {
+    this.loaderFunc(true);
+
     this.http.get('https://rovlpj.com/heroes/getter.php').subscribe((data: Game[]) => {
       this.games = data;
       // console.log(this.games);
@@ -112,6 +137,8 @@ export class AppComponent implements OnInit {
   }
 
   counterGames() {
+
+    this.arrAllNumbers.forEach((el) => el.count = 0);
 
     this.games.forEach((el, ind, arr) => {
       this.arrAllNumbers[this.numberWin(el.number)].count++;
@@ -132,6 +159,8 @@ export class AppComponent implements OnInit {
     this.sortedListFunc();
 
     this.checkConsecutiveNumbers();
+
+    this.loaderFunc(false);
   }
 
   searchFirstMinCounterFunc(el: Obj) {
@@ -155,7 +184,9 @@ export class AppComponent implements OnInit {
   }
 
   sortedListFunc() {
-    let flagArr: boolean[] = [];
+    const flagArr: boolean[] = [];
+    this.sortedList = [];
+
     for (let index = 0; index < 38; index++) {
       flagArr.push(false);
     }
@@ -167,7 +198,7 @@ export class AppComponent implements OnInit {
       } else {
 
         const el = this.games[index];
-        const elNum = el.number === '00' ? 37 : +el.number;
+        const elNum = this.numberWin(el.number);
 
         if (!flagArr[elNum]) {
           this.sortedList.push({
@@ -213,9 +244,7 @@ export class AppComponent implements OnInit {
       }
     }
 
-    if (this.consecutiveNumbers.num >= this.consecutiveNumbers.required) {
-
-    } else {
+    if (this.consecutiveNumbers.num < this.consecutiveNumbers.required) {
       this.consecutiveNumbers.flag = false;
     }
   }
@@ -282,4 +311,38 @@ export class AppComponent implements OnInit {
         : ind;
   }
 
+
+  timer() {
+    const nowDate = new Date(),
+      minutes = nowDate.getMinutes(),
+      seconds = nowDate.getSeconds(),
+      remainderOfDivision = minutes % 10;
+
+    let needS: number, temp: number;
+
+    temp = remainderOfDivision < 6
+      ? 6
+      : 16;
+
+    needS = (temp - (minutes % 10)) * 60 - seconds;
+
+    // this.timerFunc(needS);
+
+    this.timerObj.id = setInterval(() => {
+      needS--;
+      this.timerFunc(needS);
+    }, 1000);
+  }
+
+
+  timerFunc(seconds) {
+    if (seconds >= 0) {
+      this.timerObj.seconds = seconds % 60;
+      this.timerObj.minutes = Math.floor(seconds / 60);
+    } else {
+      clearInterval(this.timerObj.id);
+      // Загружаем данные
+      this.getGames();
+    }
+  }
 }
