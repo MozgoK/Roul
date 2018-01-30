@@ -216,7 +216,7 @@ table, th, td {
       }
     }
 
-    & span:not(.header) {
+    & span:not(.header):not(.tooltiptext) {
       font-size: 14px;
       margin: 5px;
       height: 34px;
@@ -447,4 +447,33 @@ table, th, td {
     color: #fff;
 
     transition: all .3s;
+}
+
+
+
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    bottom: auto;
+    right: 110%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity .1s;
+    width: 100%;
+    padding: 4px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.23), 0 3px 3px rgba(0, 0, 0, 0.16);
+    border-radius: 0;
+    font-size: 14px;
+    text-align: center;
+    box-sizing: border-box;
+    background: #FFEB3B;
+    color: #212121;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }

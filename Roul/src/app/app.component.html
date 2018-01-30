@@ -62,7 +62,7 @@
                   <td>{{games[el.index].time*1000 | date:'HH:mm | dd.MM'}}</td>
                   <td>
                     <div
-                      class="td-cell"
+                      class="td-cell tooltip"
                       [ngClass]="arrAllNumbers[el.number | numberWin].color"
                       [class.cell-clicked]="cellClicked === el.number"
                       (click)="clickCell(el.number)"
@@ -72,6 +72,7 @@
                         [ngClass]="{'first': arrAllNumbers[el.number | numberWin].count === firstMinCounter, 
                                     'second': arrAllNumbers[el.number | numberWin].count === secondMinCounter}">
                       </div>
+                      <span class="tooltiptext">{{games[el.index].gold}}</span>
                     </div>
                   </td>
                   <td>{{arrAllNumbers[el.number | numberWin].count}}</td>
@@ -168,12 +169,13 @@
                 <td>{{el.time*1000 | date:'HH:mm | dd.MM'}}</td>
                 <td>
                   <div 
-                    class="td-cell" 
+                    class="td-cell tooltip" 
                     [ngClass]="arrAllNumbers[el.number | numberWin].color" 
                     [class.cell-clicked]="cellClicked === el.number"
                     (click)="clickCell(el.number)"
                   >
                     {{el.number}}
+                    <span class="tooltiptext">{{el.gold}}</span>
                   </div>
                 </td>
               </tr>
