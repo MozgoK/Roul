@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-html { height: 100%; }
+html { min-height: 100%; }
 
 body {
   background: linear-gradient(0deg, #333333 , #5a5454);

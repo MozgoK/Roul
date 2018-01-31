@@ -221,6 +221,7 @@
       </div>
 </div>
 
-<div class="timer" [style.opacity]="(timerObj.minutes === 0 && timerObj.seconds === 0) ? 0 : 1 ">
+<!-- Убрать "!" в классе -->
+<div class="timer" [style.opacity]="(timerObj.minutes === 0 && timerObj.seconds === 0) ? 0 : 1 " [class.error]="!flagError">
   Reload after {{timerObj.minutes | number:'2.'}}:{{timerObj.seconds | number:'2.'}}
 </div>

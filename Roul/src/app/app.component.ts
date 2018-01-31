@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   games: Game[] = [];
   firstMinCounter: number = 0;
   secondMinCounter: number;
+  flagError: boolean = false;
 
   sortedList: SortedObj[] = [];
 
@@ -132,6 +133,7 @@ export class AppComponent implements OnInit {
     this.http.get('https://rovlpj.com/heroes/getter.php').subscribe((data: Game[]) => {
       this.games = data;
       // console.log(this.games);
+      this.checkErrors();
       this.counterGames();
     });
   }
@@ -345,4 +347,31 @@ export class AppComponent implements OnInit {
       this.getGames();
     }
   }
+
+
+  checkErrors() {
+    let flag: boolean = true,
+      arrErrors: number[] = [];
+
+    this.games.forEach((el, ind, arr) => {
+      if (arr[ind - 1] && (arr[ind - 1].time - el.time) !== 600) {
+        flag = false;
+        arrErrors.push(ind);
+      }
+    });
+
+    if (!flag) {
+      this.flagError = true;
+
+      console.clear();
+      console.log('Ошибки! (' + arrErrors.length + ')');
+      arrErrors.forEach((el) => {
+        console.log(this.games[el]);
+      });
+    } else {
+      this.flagError = false;
+    }
+  }
+
+
 }
