@@ -322,9 +322,11 @@ export class AppComponent implements OnInit {
 
     let needS: number, temp: number;
 
-    temp = remainderOfDivision < 6
-      ? 6
-      : 16;
+    temp = remainderOfDivision < 3
+      ? 3
+      : remainderOfDivision < 8
+          ? 8
+          : 13;
 
     needS = (temp - (minutes % 10)) * 60 - seconds;
 
