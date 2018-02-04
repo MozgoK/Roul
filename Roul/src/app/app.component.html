@@ -184,34 +184,65 @@
         
         </div>
 
-        <div class="first info-block statistics float">
-          <p class="header">По областям:</p>
-          <div class="sorted-list fields">
-            <div>
+        <div class="float">
+          <div class="first info-block statistics">
+            <p class="header">По областям:</p>
+            <div class="sorted-list fields border">
+              <div>
 
 
-              <table>
-                <tr class="hr-div">
-                  <th>Область</th>
-                  <th>Выпадений</th>
-                </tr>
-
-                <ng-template ngFor let-ind="index" let-field [ngForOf]="fields">
-                  <tr 
-                    *ngFor="let item of field; let i = index;" 
-                    (mouseover)="item.over = true" 
-                    (mouseleave)="item.over = false"
-                    [ngClass]="{'min': item.min, 'last': i === fields[0].length - 1, 'hover-row': item.over, 'hr-div': i === field.length - 1 && ind !== fields.length - 1}"
-                  >
-                    <td>{{item.text}}</td>
-                    <td>{{item.num}}</td>
+                <table>
+                  <tr class="hr-div">
+                    <th>Область</th>
+                    <th>Выпадений</th>
                   </tr>
-                </ng-template>
-                
-              </table>
+
+                  <ng-template ngFor let-ind="index" let-field [ngForOf]="fields">
+                    <tr 
+                      *ngFor="let item of field; let i = index;" 
+                      (mouseover)="item.over = true" 
+                      (mouseleave)="item.over = false"
+                      [ngClass]="{'min': item.min, 'last': i === fields[0].length - 1, 'hover-row': item.over, 'hr-div': i === field.length - 1 && ind !== fields.length - 1}"
+                    >
+                      <td>{{item.text}}</td>
+                      <td>{{item.num}}</td>
+                    </tr>
+                  </ng-template>
+                  
+                </table>
+              </div>
+          
             </div>
-        
           </div>
+
+          <div class="first info-block statistics">
+            <!-- <p class="header">По областям:</p> -->
+            <div class="sorted-list border">
+              <div>
+
+
+                <table class="calc">
+                  <tr class="hr-div">
+                    <th>Ставка</th>
+                    <th>Множитель</th>
+                    <th>Золото</th>
+                  </tr>
+                  <tr class="hr-div">
+                    <td><input type="text" [(ngModel)]="calc.rate"></td>
+                    <td><input type="text" [(ngModel)]="calc.multiplier"></td>
+                    <td><input type="text" [(ngModel)]="calc.gold"></td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">Золота хватит на 173 ставки (Макс. приб. 28355)</td>
+                  </tr>
+                  
+                  
+                </table>
+              </div>
+          
+            </div>
+          </div>
+
         </div>
 
 

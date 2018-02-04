@@ -29,6 +29,12 @@ export class AppComponent implements OnInit {
   secondMinCounter: number;
   flagError: boolean = false;
 
+  calc = {
+    rate: 375,
+    gold: 72300,
+    multiplier: 1.037
+  };
+
   sortedList: SortedObj[] = [];
 
   consecutiveNumbers: { flag: boolean, num: number, required: number} = {
