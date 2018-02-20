@@ -30,9 +30,11 @@ export class AppComponent implements OnInit {
   flagError: boolean = false;
 
   calc = {
-    rate: 375,
-    gold: 72300,
-    multiplier: 1.037
+    rate: <number | null> 375,
+    gold: <number | null> 72300,
+    multiplier: <number | null> 1.037,
+    numberBets: 0,
+    maximumProfit: 0
   };
 
   sortedList: SortedObj[] = [];
@@ -96,7 +98,7 @@ export class AppComponent implements OnInit {
     visible: false,
     op: false,
     container: false
-  }
+  };
 
   timerObj: any = {
     minutes: 0,
@@ -108,6 +110,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.initArrAllNumbers();
     this.getGames();
+    this.calculate();
   }
 
   initArrAllNumbers() {
@@ -244,6 +247,10 @@ export class AppComponent implements OnInit {
     const tempColor = this.arrAllNumbers[this.numberWin(this.games[0].number)].color;
 
     for (let i = 1; i < 24; i++) {
+      if (!this.games[i]) {
+        break;
+      }
+
       const el = this.games[i];
       if (this.arrAllNumbers[this.numberWin(el.number)].color !== tempColor) {
         break;
@@ -381,5 +388,51 @@ export class AppComponent implements OnInit {
     }
   }
 
+
+  calculate() {
+    // tslint:disable-next-line:curly
+    if (this.calc.gold === null || this.calc.multiplier === null || this.calc.rate === null) return;
+
+    let rate: number = 1,
+      temp: number = 0,
+      i: number = 0,
+      maxProfit: number = 0;
+
+    const result = {
+        i: 0,
+        max: 0
+      };
+
+    while (true) {
+      i++;
+
+      rate = i === 1 ? this.calc.rate : Math.floor(rate * this.calc.multiplier);
+      temp += rate;
+
+      maxProfit = rate * 36 - temp;
+
+      if (temp > this.calc.gold || maxProfit < 3000) {
+        break;
+      }
+
+      result.i = i;
+      result.max = maxProfit;
+    }
+
+    this.calc.maximumProfit = result.max;
+    this.calc.numberBets = result.i;
+  }
+
+  getText(number: number, hundred?: boolean) {
+    let text: string,
+      num = number % (hundred ? 100 : 10);
+    switch (true) {
+      case num === 0 || (num > 4 && num < 21): text = 'ставок'; break;
+      case num === 1: text = 'ставку'; break;
+      case num > 1 && num < 5: text = 'ставки'; break;
+      default: text = this.getText(num); break;
+    }
+    return text;
+  }
 
 }
