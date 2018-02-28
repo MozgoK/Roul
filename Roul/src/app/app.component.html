@@ -56,7 +56,7 @@
                 </tr>
                 <tr 
                   *ngFor="let el of sortedList; let i = index"
-                  [ngClass]="{'second-number': i%2 == 0, 'yellow-number': el.index > 300, 'orange-number': el.index > 400, 'deep-orange-number': el.index > 500 }"
+                  [ngClass]="{'second-number': i%2 == 0, 'yellow-number': el.index > 180, 'orange-number': el.index > 230, 'deep-orange-number': el.index > 280 }"
                 >
                   <td>{{el.index}}</td>
                   <td>{{games[el.index].time*1000 | date:'HH:mm | dd.MM'}}</td>
